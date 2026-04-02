@@ -1,13 +1,89 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>temp-app</title>
+
+    <!-- Primary Meta Tags -->
+    <title>VidTools — Free Online Video Compressor, Converter & Enhancer</title>
+    <meta name="description" content="Compress, convert, upscale to 4K, and remove audio noise from videos — 100% free, 100% private. All processing happens in your browser using FFmpeg WebAssembly. No uploads, no servers." />
+    <meta name="keywords" content="video compressor, video converter, online video editor, compress video, convert mp4, webm converter, mkv to mp4, video to gif, upscale video, 4k upscale, remove audio noise, ffmpeg online, client-side video processing, free video tool, browser video editor" />
+    <meta name="author" content="VidTools" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://vid-tools.vercel.app/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://vid-tools.vercel.app/" />
+    <meta property="og:title" content="VidTools — Free Online Video Compressor, Converter & Enhancer" />
+    <meta property="og:description" content="Compress, convert, upscale, and denoise videos privately in your browser. No uploads required — powered by FFmpeg WebAssembly." />
+    <meta property="og:site_name" content="VidTools" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://vid-tools.vercel.app/" />
+    <meta name="twitter:title" content="VidTools — Free Online Video Compressor & Converter" />
+    <meta name="twitter:description" content="Process videos directly in your browser. Compress, convert to 14+ formats, upscale to 4K, and remove audio noise — completely free and private." />
+
+    <!-- Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "VidTools",
+      "url": "https://vid-tools.vercel.app/",
+      "description": "Free online video compressor, converter, and enhancer. Process videos in your browser with no uploads — powered by FFmpeg WebAssembly.",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires a modern browser with WebAssembly support",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Video compression with adjustable CRF",
+        "Convert between 10+ video formats (MP4, WebM, MKV, MOV, AVI, FLV, OGV, MPEG-TS, GIF)",
+        "Extract audio to MP3, WAV, AAC, OGG",
+        "Upscale video to 1080p or 4K",
+        "Audio noise removal using FFT denoising",
+        "100% client-side processing with no data uploads"
+      ]
+    }
+    </script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Noscript fallback for crawlers that don't execute JS -->
+    <noscript>
+      <div style="max-width:700px;margin:40px auto;padding:0 20px;font-family:sans-serif;color:#ededed;background:#0a0a0a;">
+        <h1>VidTools — Free Online Video Compressor, Converter & Enhancer</h1>
+        <p>VidTools is a free, privacy-first video processing tool that runs entirely in your browser. It accepts virtually any video format as input (1000+ formats supported). No files are uploaded to any server — everything is processed locally using FFmpeg WebAssembly.</p>
+        <h2>Features</h2>
+        <ul>
+          <li><strong>Compress videos</strong> — Reduce file size with adjustable quality (CRF 0–51).</li>
+          <li><strong>Convert formats</strong> — MP4, WebM, MKV, MOV, AVI, FLV, OGV, MPEG-TS, GIF.</li>
+          <li><strong>Extract audio</strong> — Export audio tracks as MP3, WAV, AAC, or OGG.</li>
+          <li><strong>Upscale resolution</strong> — Upscale video to 1080p or 4K using Lanczos interpolation.</li>
+          <li><strong>Remove audio noise</strong> — Clean up audio with FFT-based denoising.</li>
+        </ul>
+        <h2>How it works</h2>
+        <p>VidTools uses FFmpeg compiled to WebAssembly to process videos directly inside your browser. Your files never leave your device, making it completely private and secure. Simply drag and drop a video file, choose your settings, and download the result.</p>
+        <h2>Supported formats</h2>
+        <p>Input: Any video format — over 1000 formats supported by FFmpeg. Output: MP4 (H.264), WebM (VP9), MKV, MOV, AVI, FLV, OGV (Theora), MPEG-TS, GIF, MP3, WAV, AAC, OGG.</p>
+        <p>Please enable JavaScript to use VidTools.</p>
+      </div>
+    </noscript>
   </body>
 </html>
