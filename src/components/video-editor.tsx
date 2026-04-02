@@ -2,6 +2,7 @@ import { useState, useRef, useMemo } from "react"
 import { useFFmpeg } from "@/hooks/use-ffmpeg"
 import { fetchFile } from "@ffmpeg/util"
 import { toast } from "@/components/toast"
+import { trackEvent } from "@/lib/analytics"
 import {
   Upload,
   FileVideo,
@@ -42,6 +43,7 @@ export default function VideoEditor() {
     const f = e.dataTransfer.files[0]
     if (f?.type.startsWith("video/")) {
       setFile(f); setResultUrl(null)
+      trackEvent("file_uploaded", { file_type: f.type, file_size_mb: (f.size / 1048576).toFixed(1) })
     } else {
       toast("Please drop a valid video file.", "error")
     }
@@ -50,6 +52,7 @@ export default function VideoEditor() {
   const handleProcess = async () => {
     if (!file || !loaded) return
     setIsProcessing(true); setResultUrl(null)
+    trackEvent("processing_started", { format, quality, resolution, denoise })
 
     const inputName = `input_${file.name.replace(/\s+/g, "_")}`
     const ext = format === "original" ? file.name.split(".").pop() || "mp4" : format
@@ -111,9 +114,11 @@ export default function VideoEditor() {
       if (code === 0) {
         const data = await ffmpeg.readFile(outputName)
         const mime = isAudioOnly ? `audio/${ext === "mp3" ? "mpeg" : ext}` : (ext === "gif" ? "image/gif" : `video/${ext}`)
-        const url = URL.createObjectURL(new Blob([data as any], { type: mime }))
+        const blob = new Blob([data as any], { type: mime })
+        const url = URL.createObjectURL(blob)
         setResultUrl(url)
         setResultName(`vidtools_${file.name.split(".")[0]}.${ext}`)
+        trackEvent("processing_completed", { format: ext, file_size_mb: (blob.size / 1048576).toFixed(1) })
         toast("Video processed successfully.", "success")
       } else {
         toast("Processing failed.", "error")
