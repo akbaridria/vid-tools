@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet-async"
 
-const SITE_URL = "https://vid-tools.vercel.app"
+const SITE_URL = "https://save-vid.xyz"
 
 /**
  * FAQ items — rendered as both visible HTML and JSON-LD structured data
@@ -65,7 +65,7 @@ export default function SEOHead() {
         "@type": "HowToStep",
         position: 1,
         name: "Open VidTools",
-        text: "Go to vid-tools.vercel.app in your browser. The FFmpeg engine will load automatically.",
+        text: "Go to save-vid.xyz in your browser. The FFmpeg engine will load automatically.",
       },
       {
         "@type": "HowToStep",
