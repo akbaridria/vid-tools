@@ -20,7 +20,7 @@ import {
 type TabId = "optimize" | "format" | "enhance"
 
 export default function VideoEditor() {
-  const { ffmpeg, loaded, progress, logs } = useFFmpeg()
+  const { ffmpeg, loaded, progress, logs, cancel } = useFFmpeg()
 
   const [file, setFile] = useState<File | null>(null)
   const [isDragging, setIsDragging] = useState(false)
@@ -75,7 +75,7 @@ export default function VideoEditor() {
         // Video encoding per format
         switch (format) {
           case "webm":
-            cmd.push("-c:v", "libvpx-vp9", "-crf", quality.toString(), "-b:v", "0")
+            cmd.push("-c:v", "libvpx-vp9", "-crf", quality.toString(), "-b:v", "0", "-row-mt", "1", "-deadline", "realtime", "-cpu-used", "8")
             break
           case "ogv":
             cmd.push("-c:v", "libtheora", "-q:v", Math.max(0, Math.min(10, Math.round((51 - quality) / 5.1))).toString())
@@ -101,6 +101,10 @@ export default function VideoEditor() {
         // Scaling (skip for gif, handled above)
         if (resolution !== "original" && format !== "gif") {
           cmd.push("-vf", `scale=${resolution === "4k" ? "3840:2160" : "1920:1080"}:flags=lanczos`)
+        }
+        // Limit threads when combining heavy filters to prevent deadlock in WASM multi-threading
+        if (resolution !== "original" && denoise === "on") {
+          cmd.push("-threads", "2")
         }
         // Audio
         if (format !== "gif") {
@@ -195,11 +199,27 @@ export default function VideoEditor() {
             borderRadius: "var(--radius-xs)", padding: "10px 12px",
             fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--color-text-muted)",
             maxHeight: 100, overflowY: "auto", lineHeight: 1.7,
+            marginBottom: 20
           }}
         >
           {logs.slice(-6).map((log, i) => (
             <div key={i} style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{log}</div>
           ))}
+        </div>
+        
+        <div style={{ textAlign: "center" }}>
+          <button 
+            className="btn" 
+            onClick={() => { cancel(); setIsProcessing(false); }}
+            style={{ 
+              background: "var(--color-bg-secondary)", 
+              border: "1px solid var(--color-border)", 
+              color: "var(--color-error)",
+              fontSize: 12
+            }}
+          >
+            <X size={14} style={{ marginRight: 6 }} /> Cancel Processing
+          </button>
         </div>
       </div>
     )
