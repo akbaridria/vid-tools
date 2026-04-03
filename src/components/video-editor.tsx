@@ -20,7 +20,7 @@ import {
 type TabId = "optimize" | "format" | "enhance"
 
 export default function VideoEditor() {
-  const { ffmpeg, loaded, progress, logs, cancel } = useFFmpeg()
+  const { ffmpeg, loaded, progress, logs, cancel, loadError, retry } = useFFmpeg()
 
   const [file, setFile] = useState<File | null>(null)
   const [isDragging, setIsDragging] = useState(false)
@@ -138,9 +138,24 @@ export default function VideoEditor() {
   if (!loaded) {
     return (
       <div style={{ padding: "60px 0", textAlign: "center" }}>
-        <Loader2 size={20} className="animate-spin" style={{ color: "var(--color-text-muted)", margin: "0 auto 12px" }} />
-        <p style={{ fontSize: 13, color: "var(--color-text-secondary)" }}>Loading FFmpeg engine...</p>
-        <p style={{ fontSize: 12, color: "var(--color-text-muted)", marginTop: 4 }}>~31 MB WebAssembly module</p>
+        {loadError ? (
+          <>
+            <AlertTriangle size={20} style={{ color: "var(--color-warning)", margin: "0 auto 12px" }} />
+            <p style={{ fontSize: 13, color: "var(--color-text-secondary)", marginBottom: 4 }}>{loadError}</p>
+            <p style={{ fontSize: 12, color: "var(--color-text-muted)", marginBottom: 16 }}>
+              This can happen due to browser restrictions or network issues.
+            </p>
+            <button className="btn btn-primary" onClick={retry} style={{ fontSize: 12 }}>
+              <RotateCcw size={14} /> Retry
+            </button>
+          </>
+        ) : (
+          <>
+            <Loader2 size={20} className="animate-spin" style={{ color: "var(--color-text-muted)", margin: "0 auto 12px" }} />
+            <p style={{ fontSize: 13, color: "var(--color-text-secondary)" }}>Loading FFmpeg engine...</p>
+            <p style={{ fontSize: 12, color: "var(--color-text-muted)", marginTop: 4 }}>~31 MB WebAssembly module</p>
+          </>
+        )}
       </div>
     )
   }
